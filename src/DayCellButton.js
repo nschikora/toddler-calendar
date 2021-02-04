@@ -1,6 +1,4 @@
-import styled from 'styled-components'
-import SwitchIcon from './Switch.png'
-import EmojiIcon from './Emoji.png'
+import styled, { css } from 'styled-components'
 
 const DayCellButtonWrapper = styled.button`
 width: 2rem;
@@ -22,9 +20,25 @@ color: #333;
 }
 `
 
-const DayCellButtonImage = styled.img`
+const DayCellButtonImage = styled.div`
 width: 1rem;
 height: 1rem;
+background-size: 150%;
+background-position-x: 50%;
+background-position-y: 50%;
+background-repeat: no-repeat;
+${
+    props => props.icon === 'Emoji' &&
+    css`
+    background-image: url(/openmoji-svg-color/1F60A.svg);
+    `
+}
+${
+    props => props.icon === 'Switch' &&
+    css`
+    background-image: url(/openmoji-svg-color/1F504.svg);
+    `
+}
 `
 
 const DayCellButtonText = styled.div`
@@ -42,7 +56,7 @@ function DayCellButton(props) {
         icon &&
         <DayCellButtonImage
           alt={`Icon of an ${icon}`}
-          src={icon === 'Emoji' ? EmojiIcon : SwitchIcon}
+          icon={icon}
         />
       }
       {
