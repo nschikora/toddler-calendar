@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import MonthEmoji from './MonthEmoji'
 import { MONTHS } from './Constants'
+import DatePicker from './DatePicker'
+import { useState } from 'react'
 
 const HeaderWrap = styled.div`
 display: grid;
@@ -33,12 +35,19 @@ margin: 0;
 `
 
 function Header(props) {
-  const { date } = props
+  const { date, dispatch } = props
+  const [presentingDatePicker, setPresentingDatePicker] = useState(false)
+
+  const handleMonthNameClicked = () => setPresentingDatePicker(!presentingDatePicker)
+  const handleDatePickerWantsClose = () => setPresentingDatePicker(false)
+
   return (
     <HeaderWrap>
       <MonthEmoji />
       <MonthNameWrap>
-        <MonthName>
+        <MonthName
+          onClick={handleMonthNameClicked}
+        >
           {
             MONTHS[date.getMonth()].toUpperCase()
           }
@@ -51,6 +60,14 @@ function Header(props) {
           }
         </MonthNumber>
       </div>
+      {
+        presentingDatePicker &&
+        <DatePicker 
+          defaultDate={date}
+          onClose={handleDatePickerWantsClose}
+          dispatch={dispatch}
+        />
+      }
     </HeaderWrap>
   )
 }

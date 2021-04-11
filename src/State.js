@@ -34,18 +34,11 @@ function init(initialState) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'selectMonth':
+    case 'selectDate':
       return init(
         {
           initialAllocation: state.initialAllocation,
-          sheetDate: new Date(state.sheetDate.getFullYear(), action.payload, 1)
-        }
-      )
-    case 'selectYear':
-      return init(
-        {
-          initialAllocation: state.initialAllocation,
-          sheetDate: new Date(action.payload, state.sheetDate.getMonth(), 1)
+          sheetDate: action.payload
         }
       )
     case 'selectInitialAllocation':

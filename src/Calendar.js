@@ -16,9 +16,16 @@ function Calendar(props) {
   const { days, sheetDate, dispatch } = props
   return (
     <CalendarContainer>
-      <Header date={sheetDate} />
+      <Header 
+        date={sheetDate} 
+        dispatch={dispatch}
+      />
       <DayLabels />
-      <DayGrid sheetDate={sheetDate} days={days} dispatch={dispatch} />
+      <DayGrid 
+        sheetDate={sheetDate} 
+        days={days} 
+        dispatch={dispatch} 
+      />
     </CalendarContainer>
   )
 }
