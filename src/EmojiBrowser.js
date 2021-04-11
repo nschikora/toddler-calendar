@@ -206,6 +206,7 @@ height: 100vh;
 display: flex;
 justify-content: center;
 align-items: center;
+background-color: rgba(0,0,0,.337);
 `
 
 const EmojiBrowserContainer = styled.div`
