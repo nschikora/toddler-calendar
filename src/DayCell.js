@@ -173,7 +173,10 @@ function DayCell(props) {
         }
         {
           presentingEmojiBrowser &&
-          <OverlayingEmojiBrowser onEmojiClick={handleEmojiClick} />
+          <OverlayingEmojiBrowser 
+            onEmojiClick={handleEmojiClick} 
+            onClose={() => setPresentingEmojiBrowser(false)}
+          />
         }
       </DayCellContent>
     </DayCellWrapper>

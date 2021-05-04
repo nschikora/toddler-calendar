@@ -36,7 +36,10 @@ function MonthEmoji() {
       </MonthEmojiImage>
       {
         presentingEmojiBrowser &&
-        <OverlayingEmojiBrowser onEmojiClick={handleEmojiSelected} />
+        <OverlayingEmojiBrowser 
+          onEmojiClick={handleEmojiSelected} 
+          onClose={() => setPresentingEmojiBrowser(false)}
+        />
       }
     </>
   )

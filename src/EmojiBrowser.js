@@ -218,17 +218,29 @@ overflow: hidden;
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 background-color: #FFF;
 padding: 1rem;
+box-sizing: border-box;
 `
 
-function OverlayingEmojiBrowser({ onEmojiClick }) {
+function OverlayingEmojiBrowser(props) {
+  const { onEmojiClick, onClose } = props
+  const overlayRef = useRef()
+  const handleOverlayClicked = e => {
+    if (e.target === overlayRef.current) {
+      onClose()
+    }
+  }
   return (
-    <EmojiBrowserOverlay>
+    <EmojiBrowserOverlay
+      onClick={handleOverlayClicked}
+      ref={overlayRef}
+    >
       <EmojiBrowserContainer>
         <EmojiBrowser 
           emojiPerPage={120} 
           onEmojiClick={onEmojiClick} 
         />
       </EmojiBrowserContainer>
+
     </EmojiBrowserOverlay>
   )
 }
