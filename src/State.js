@@ -35,22 +35,43 @@ function init(initialState) {
   }
 }
 
+function loadExistingStateOrInit({sheetDate}) {
+  try {
+    const storageKey = `sheet-${sheetDate.toISOString()}`;
+    const stateStr = localStorage.getItem(storageKey);
+    if (!stateStr || !stateStr.length) {
+      return init({...INITIAL_STATE, sheetDate});
+    }
+    const state = JSON.parse(stateStr);
+    if (!('stateCompatibilityVersion' in state) || state.stateCompatibilityVersion < INITIAL_STATE.stateCompatibilityVersion) {
+      return init({...INITIAL_STATE, sheetDate});
+    }
+
+    state.days = state.days.map(day => ({...day, date: new Date(day.date)}));
+    state.sheetDate = new Date(state.sheetDate);
+
+    return state;
+  } catch (err) {
+    return init({...INITIAL_STATE, sheetDate});
+  }
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case 'selectDate':
-      return init(
+      return loadExistingStateOrInit(
         {
-          initialAllocation: state.initialAllocation,
           sheetDate: action.payload
         }
       )
     case 'selectInitialAllocation':
-      return init(
-        {
-          initialAllocation: action.payload,
-          sheetDate: state.sheetDate
-        }
-      )
+      return {
+        ...state,
+        initialAllocation: action.payload,
+        days: state.days.map(
+          day => ({...day, allocation: action.payload})
+        )
+      }
     case 'switchToA':
       return {
         ...state,
@@ -106,9 +127,21 @@ function reducer(state, action) {
   }
 }
 
+function wrappedReducer(state, action) {
+  const newState = reducer(state, action);
+  try {
+    const stateStr = JSON.stringify(newState);
+    const storageKey = `sheet-${newState.sheetDate.toISOString()}`;
+    localStorage.setItem(storageKey, stateStr);
+  } catch (err) {
+    console.error(err)
+  }
+  return newState;
+}
+
 export {
   INITIAL_STATE,
-  init,
-  reducer,
+  loadExistingStateOrInit,
+  wrappedReducer as reducer,
   TODAY
 }
