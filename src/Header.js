@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import MonthEmoji from './MonthEmoji'
 import { MONTHS } from './Constants'
-import DatePicker from './DatePicker'
+import SheetSettings from './SheetSettings'
 import { useState } from 'react'
 
 const HeaderWrap = styled.div`
@@ -25,6 +25,9 @@ font-family: 'Roboto';
 font-weight: 200;
 letter-spacing: 0.335rem;
 font-variant: small-caps;
+:hover {
+  text-decoration: underline dotted;
+}
 `
 
 const MonthNumber = styled.h1`
@@ -36,10 +39,10 @@ margin: 0;
 
 function Header(props) {
   const { date, dispatch, monthEmoji } = props
-  const [presentingDatePicker, setPresentingDatePicker] = useState(false)
+  const [presentingSheetSettings, setPresentingSheetSettings] = useState(false)
 
-  const handleMonthNameClicked = () => setPresentingDatePicker(!presentingDatePicker)
-  const handleDatePickerWantsClose = () => setPresentingDatePicker(false)
+  const handleMonthNameClicked = () => setPresentingSheetSettings(!presentingSheetSettings)
+  const handleSheetSettingsWantsClose = () => setPresentingSheetSettings(false)
 
   return (
     <HeaderWrap>
@@ -64,10 +67,10 @@ function Header(props) {
         </MonthNumber>
       </div>
       {
-        presentingDatePicker &&
-        <DatePicker 
+        presentingSheetSettings &&
+        <SheetSettings 
           defaultDate={date}
-          onClose={handleDatePickerWantsClose}
+          onClose={handleSheetSettingsWantsClose}
           dispatch={dispatch}
         />
       }

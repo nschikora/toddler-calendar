@@ -11,6 +11,10 @@ ${
   background-image: url(/openmoji-svg-color/${props.emoji}.svg);
   `
 }
+border-bottom: 2px dotted #FFF;
+:hover {
+  border-bottom: 2px dotted #333;
+}
 `
 
 function MonthEmoji(props) {

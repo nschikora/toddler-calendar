@@ -121,7 +121,7 @@ function reducer(state, action) {
         monthEmoji: action.payload,
       }
     case 'reset':
-      return init(action.payload)
+      return init({...INITIAL_STATE, sheetDate: state.sheetDate})
     default:
       throw new Error()
   }

@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useRef, useState } from 'react'
 import { MONTHS, YEARS } from './Constants'
-import { INITIAL_STATE } from './State'
 
 function MonthSelector(props) {
   const { selectedMonth, onMonthSelected } = props
@@ -23,7 +22,7 @@ function YearSelector(props) {
   )
 }
 
-const DatePickerOverlay = styled.div`
+const SheetSettingsOverlay = styled.div`
 position: absolute;
 left: 0;
 top: 0;
@@ -35,7 +34,7 @@ align-items: center;
 background-color: rgba(0,0,0,.337);
 `
 
-const DatePickerContainer = styled.div`
+const SheetSettingsContainer = styled.div`
 width: 20rem;
 height: 10rem;
 max-width: 100vw;
@@ -50,7 +49,7 @@ align-items: stretch;
 flex-direction: column;
 `
 
-const DatePickerHeadline = styled.h1`
+const SheetSettingsHeadline = styled.h1`
 text-align: center;
 font-size: 2rem;
 margin: 0;
@@ -58,17 +57,17 @@ font-family: 'Roboto';
 font-weight: 200;
 `
 
-const DatePickerPickerContainer = styled.div`
+const SheetSettingsPickerContainer = styled.div`
 display: flex;
 justify-content: center;
 `
 
-const DatePickerButtonContainer = styled.div`
+const SheetSettingsButtonContainer = styled.div`
 display: flex;
 justify-content: space-between;
 `
 
-function DatePicker(props) {
+function SheetSettings(props) {
   const { defaultDate, dispatch } = props
   const [currentDate, setCurrentDate] = useState(defaultDate)
 
@@ -87,7 +86,7 @@ function DatePicker(props) {
     }
   }
 
-  const handleResetClicked = () => dispatch({ type: 'reset', payload: INITIAL_STATE })
+  const handleResetClicked = () => dispatch({ type: 'reset' })
   const handleCloseClicked = () => props.onClose()
 
   useEffect(() => {
@@ -95,25 +94,25 @@ function DatePicker(props) {
   }, [currentDate, dispatch])
 
   return (
-    <DatePickerOverlay
+    <SheetSettingsOverlay
       onClick={handleOverlayClicked}
       ref={overlayRef}
     >
-      <DatePickerContainer>
-        <DatePickerHeadline>
-          Select a date
-        </DatePickerHeadline>
-        <DatePickerPickerContainer>
+      <SheetSettingsContainer>
+        <SheetSettingsHeadline>
+          Select a month
+        </SheetSettingsHeadline>
+        <SheetSettingsPickerContainer>
           <MonthSelector selectedMonth={currentDate.getMonth()} onMonthSelected={handleMonthSelected} />
           <YearSelector selectedYear={currentDate.getFullYear()} onYearSelected={handleYearSelected} />
-        </DatePickerPickerContainer>
-        <DatePickerButtonContainer>
-          <button onClick={handleResetClicked}>Reset calendar</button>
+        </SheetSettingsPickerContainer>
+        <SheetSettingsButtonContainer>
+          <button onClick={handleResetClicked}>Reset sheet</button>
           <button onClick={handleCloseClicked}>Close</button>
-        </DatePickerButtonContainer>
-      </DatePickerContainer>
-    </DatePickerOverlay>
+        </SheetSettingsButtonContainer>
+      </SheetSettingsContainer>
+    </SheetSettingsOverlay>
   )
 }
 
-export default DatePicker
+export default SheetSettings
