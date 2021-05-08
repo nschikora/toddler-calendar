@@ -13,24 +13,22 @@ ${
 }
 `
 
-function MonthEmoji() {
-  const [emoji, setEmoji] = useState('1F47C-1F3FF')
+function MonthEmoji(props) {
+  const { monthEmoji, dispatch } = props
   const [presentingEmojiBrowser, setPresentingEmojiBrowser] = useState(false)
 
   const handleEmojiClick = () => {
-    console.log('klick')
     setPresentingEmojiBrowser(!presentingEmojiBrowser)
   }
   const handleEmojiSelected = (selectedEmoji) => {
-    console.log('click')
     setPresentingEmojiBrowser(false)
-    setEmoji(selectedEmoji.hexcode)
+    dispatch({type: 'setMonthEmoji', payload: selectedEmoji.hexcode})
   }
 
   return (
     <>
       <MonthEmojiImage
-        emoji={emoji}
+        emoji={monthEmoji}
         onClick={handleEmojiClick}
       >
       </MonthEmojiImage>

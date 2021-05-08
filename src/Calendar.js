@@ -13,12 +13,13 @@ min-width: 0;
 `
 
 function Calendar(props) {
-  const { days, sheetDate, dispatch } = props
+  const { days, sheetDate, dispatch, monthEmoji } = props
   return (
     <CalendarContainer>
       <Header 
         date={sheetDate} 
         dispatch={dispatch}
+        monthEmoji={monthEmoji}
       />
       <DayLabels />
       <DayGrid 

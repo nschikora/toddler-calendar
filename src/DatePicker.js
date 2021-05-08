@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MONTHS, YEARS } from './Constants'
-import { initialState } from './State'
+import { INITIAL_STATE } from './State'
 
 function MonthSelector(props) {
   const { selectedMonth, onMonthSelected } = props
@@ -72,8 +72,13 @@ function DatePicker(props) {
   const { defaultDate, dispatch } = props
   const [currentDate, setCurrentDate] = useState(defaultDate)
 
-  const handleMonthSelected = month => setCurrentDate(new Date(currentDate.getFullYear(), month, 1))
-  const handleYearSelected = year => setCurrentDate(new Date(year, currentDate.getMonth(), 1))
+  const handleMonthSelected = month => {
+    setCurrentDate(new Date(currentDate.getFullYear(), month, 1))
+  }
+
+  const handleYearSelected = year => {
+    setCurrentDate(new Date(year, currentDate.getMonth(), 1))
+  }
 
   const overlayRef = useRef()
   const handleOverlayClicked = e => {
@@ -82,12 +87,12 @@ function DatePicker(props) {
     }
   }
 
-  const handleResetClicked = () => dispatch({ type: 'reset', payload: initialState })
-  const handleSaveClicked = () => {
+  const handleResetClicked = () => dispatch({ type: 'reset', payload: INITIAL_STATE })
+  const handleCloseClicked = () => props.onClose()
+
+  useEffect(() => {
     dispatch({ type: 'selectDate', payload: currentDate })
-    props.onClose()
-  }
-  const handleCancelClicked = () => props.onClose()
+  }, [currentDate, dispatch])
 
   return (
     <DatePickerOverlay
@@ -104,8 +109,7 @@ function DatePicker(props) {
         </DatePickerPickerContainer>
         <DatePickerButtonContainer>
           <button onClick={handleResetClicked}>Reset calendar</button>
-          <button onClick={handleCancelClicked}>Cancel</button>
-          <button onClick={handleSaveClicked}>Save</button>
+          <button onClick={handleCloseClicked}>Close</button>
         </DatePickerButtonContainer>
       </DatePickerContainer>
     </DatePickerOverlay>

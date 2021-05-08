@@ -1,12 +1,15 @@
 import { TODAY } from './Constants'
 
-const initialState = {
+const INITIAL_STATE = {
   sheetDate: new Date(TODAY.getFullYear(), TODAY.getMonth(), 1),
-  initialAllocation: 'A'
+  initialAllocation: 'A',
+  stateCompatibilityVersion: 0,
+  monthEmoji: '1F47C-1F3FF'
 }
 
 function init(initialState) {
   const { sheetDate, initialAllocation } = initialState
+
   const dayOfWeek = sheetDate.getDay()
   let mondayOffset = dayOfWeek - 1
   if (mondayOffset === -1) {
@@ -91,6 +94,11 @@ function reducer(state, action) {
           ...state.days.filter(day => day.date > action.payload.date)
         ]
       }
+    case 'setMonthEmoji':
+      return {
+        ...state,
+        monthEmoji: action.payload,
+      }
     case 'reset':
       return init(action.payload)
     default:
@@ -99,7 +107,7 @@ function reducer(state, action) {
 }
 
 export {
-  initialState,
+  INITIAL_STATE,
   init,
   reducer,
   TODAY

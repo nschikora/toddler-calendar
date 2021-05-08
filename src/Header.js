@@ -35,7 +35,7 @@ margin: 0;
 `
 
 function Header(props) {
-  const { date, dispatch } = props
+  const { date, dispatch, monthEmoji } = props
   const [presentingDatePicker, setPresentingDatePicker] = useState(false)
 
   const handleMonthNameClicked = () => setPresentingDatePicker(!presentingDatePicker)
@@ -43,7 +43,10 @@ function Header(props) {
 
   return (
     <HeaderWrap>
-      <MonthEmoji />
+      <MonthEmoji 
+        monthEmoji={monthEmoji} 
+        dispatch={dispatch}
+      />
       <MonthNameWrap>
         <MonthName
           onClick={handleMonthNameClicked}
