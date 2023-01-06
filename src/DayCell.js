@@ -16,13 +16,13 @@ const DayCellWrapper = styled.div`
     props.isSheetMonth &&
     props.isA &&
     css`
-      background-color: #e57373;
+      background-color: #DB2777;
     `}
 ${(props) =>
     props.isSheetMonth &&
     props.isB &&
     css`
-      background-color: #7986cb;
+      background-color: #0F766E;
     `}
 ${(props) =>
     props.isSheetMonth &&
@@ -30,10 +30,10 @@ ${(props) =>
     css`
       background: linear-gradient(
         to bottom right,
-        #e57373 0%,
-        #e57373 50%,
-        #7986cb 51%,
-        #7986cb 100%
+        #DB2777 0%,
+        #DB2777 50%,
+        #0F766E 51%,
+        #0F766E 100%
       );
     `}
 ${(props) =>
@@ -42,10 +42,10 @@ ${(props) =>
     css`
       background: linear-gradient(
         to bottom right,
-        #7986cb 0%,
-        #7986cb 50%,
-        #e57373 51%,
-        #e57373 100%
+        #0F766E 0%,
+        #0F766E 50%,
+        #DB2777 51%,
+        #DB2777 100%
       );
     `}
 `;
