@@ -1,129 +1,147 @@
-import { TODAY } from './Constants'
+import { TODAY } from "./Constants";
 
 const INITIAL_STATE = {
   sheetDate: new Date(TODAY.getFullYear(), TODAY.getMonth(), 1),
-  initialAllocation: 'A',
+  initialAllocation: "A",
   stateCompatibilityVersion: 0,
-  monthEmoji: '1F47C-1F3FF'
-}
+  monthEmoji: "1f47c-1f3ff",
+};
 
 function init(initialState) {
-  const { sheetDate, initialAllocation } = initialState
+  const { sheetDate, initialAllocation } = initialState;
 
-  const dayOfWeek = sheetDate.getDay()
-  let mondayOffset = dayOfWeek - 1
+  const dayOfWeek = sheetDate.getDay();
+  let mondayOffset = dayOfWeek - 1;
   if (mondayOffset === -1) {
-    mondayOffset = 6
+    mondayOffset = 6;
   }
-  const sheetStartDate = new Date(sheetDate.getFullYear(), sheetDate.getMonth(), sheetDate.getDate() - mondayOffset)
+  const sheetStartDate = new Date(
+    sheetDate.getFullYear(),
+    sheetDate.getMonth(),
+    sheetDate.getDate() - mondayOffset
+  );
 
-  const days = new Array(42).fill(0).map(
-    (_, ix) => (
-      new Date(sheetStartDate.getFullYear(), sheetStartDate.getMonth(), sheetStartDate.getDate() + ix)
+  const days = new Array(42)
+    .fill(0)
+    .map(
+      (_, ix) =>
+        new Date(
+          sheetStartDate.getFullYear(),
+          sheetStartDate.getMonth(),
+          sheetStartDate.getDate() + ix
+        )
     )
-  ).map(date => (
-    {
+    .map((date) => ({
       date,
       allocation: initialAllocation,
-      emoji: null
-    }
-  ))
+      emoji: null,
+    }));
 
   return {
     ...initialState,
-    days
-  }
+    days,
+  };
 }
 
-function loadExistingStateOrInit({sheetDate}) {
+function loadExistingStateOrInit({ sheetDate }) {
   try {
     const storageKey = `sheet-${sheetDate.toISOString()}`;
     const stateStr = localStorage.getItem(storageKey);
-    if (!stateStr || !stateStr.length) {
-      return init({...INITIAL_STATE, sheetDate});
+    if (!stateStr || !stateStr.length) {
+      return init({ ...INITIAL_STATE, sheetDate });
     }
     const state = JSON.parse(stateStr);
-    if (!('stateCompatibilityVersion' in state) || state.stateCompatibilityVersion < INITIAL_STATE.stateCompatibilityVersion) {
-      return init({...INITIAL_STATE, sheetDate});
+    if (
+      !("stateCompatibilityVersion" in state) ||
+      state.stateCompatibilityVersion < INITIAL_STATE.stateCompatibilityVersion
+    ) {
+      return init({ ...INITIAL_STATE, sheetDate });
     }
 
-    state.days = state.days.map(day => ({...day, date: new Date(day.date)}));
+    state.days = state.days.map((day) => ({
+      ...day,
+      date: new Date(day.date),
+    }));
     state.sheetDate = new Date(state.sheetDate);
 
     return state;
   } catch (err) {
-    return init({...INITIAL_STATE, sheetDate});
+    return init({ ...INITIAL_STATE, sheetDate });
   }
 }
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'selectDate':
-      return loadExistingStateOrInit(
-        {
-          sheetDate: action.payload
-        }
-      )
-    case 'selectInitialAllocation':
+    case "selectDate":
+      return loadExistingStateOrInit({
+        sheetDate: action.payload,
+      });
+    case "selectInitialAllocation":
       return {
         ...state,
         initialAllocation: action.payload,
-        days: state.days.map(
-          day => ({...day, allocation: action.payload})
-        )
-      }
-    case 'switchToA':
+        days: state.days.map((day) => ({ ...day, allocation: action.payload })),
+      };
+    case "switchToA":
       return {
         ...state,
         days: [
-          ...state.days.filter(day => day.date < action.payload.date),
-          { ...action.payload, allocation: 'BtoA' },
-          ...state.days.filter(day => day.date > action.payload.date).map(day => ({ ...day, allocation: 'A' }))
-        ]
-      }
-    case 'switchToB':
+          ...state.days.filter((day) => day.date < action.payload.date),
+          { ...action.payload, allocation: "BtoA" },
+          ...state.days
+            .filter((day) => day.date > action.payload.date)
+            .map((day) => ({ ...day, allocation: "A" })),
+        ],
+      };
+    case "switchToB":
       return {
         ...state,
         days: [
-          ...state.days.filter(day => day.date < action.payload.date),
-          { ...action.payload, allocation: 'AtoB' },
-          ...state.days.filter(day => day.date > action.payload.date).map(day => ({ ...day, allocation: 'B' }))
-        ]
-      }
-    case 'resetToA':
+          ...state.days.filter((day) => day.date < action.payload.date),
+          { ...action.payload, allocation: "AtoB" },
+          ...state.days
+            .filter((day) => day.date > action.payload.date)
+            .map((day) => ({ ...day, allocation: "B" })),
+        ],
+      };
+    case "resetToA":
       return {
         ...state,
         days: [
-          ...state.days.filter(day => day.date < action.payload.date),
-          ...state.days.filter(day => day.date >= action.payload.date).map(day => ({ ...day, allocation: 'A' }))
-        ]
-      }
-    case 'resetToB':
+          ...state.days.filter((day) => day.date < action.payload.date),
+          ...state.days
+            .filter((day) => day.date >= action.payload.date)
+            .map((day) => ({ ...day, allocation: "A" })),
+        ],
+      };
+    case "resetToB":
       return {
         ...state,
         days: [
-          ...state.days.filter(day => day.date < action.payload.date),
-          ...state.days.filter(day => day.date >= action.payload.date).map(day => ({ ...day, allocation: 'B' }))
-        ]
-      }
-    case 'updateDay':
+          ...state.days.filter((day) => day.date < action.payload.date),
+          ...state.days
+            .filter((day) => day.date >= action.payload.date)
+            .map((day) => ({ ...day, allocation: "B" })),
+        ],
+      };
+    case "updateDay":
       return {
         ...state,
         days: [
-          ...state.days.filter(day => day.date < action.payload.date),
+          ...state.days.filter((day) => day.date < action.payload.date),
           action.payload,
-          ...state.days.filter(day => day.date > action.payload.date)
-        ]
-      }
-    case 'setMonthEmoji':
+          ...state.days.filter((day) => day.date > action.payload.date),
+        ],
+      };
+    case "setMonthEmoji":
       return {
         ...state,
         monthEmoji: action.payload,
-      }
-    case 'reset':
-      return init({...INITIAL_STATE, sheetDate: state.sheetDate})
+      };
+    case "reset":
+      return init({ ...INITIAL_STATE, sheetDate: state.sheetDate });
     default:
-      throw new Error()
+      throw new Error();
   }
 }
 
@@ -134,7 +152,7 @@ function wrappedReducer(state, action) {
     const storageKey = `sheet-${newState.sheetDate.toISOString()}`;
     localStorage.setItem(storageKey, stateStr);
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
   return newState;
 }
@@ -143,5 +161,5 @@ export {
   INITIAL_STATE,
   loadExistingStateOrInit,
   wrappedReducer as reducer,
-  TODAY
-}
+  TODAY,
+};

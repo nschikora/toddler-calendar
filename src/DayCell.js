@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { useState } from "react";
 import DayCellButton from "./DayCellButton";
 import OverlayingEmojiBrowser from "./EmojiBrowser";
+import { Emoji } from "emoji-picker-react";
 
 const DayCellWrapper = styled.div`
   min-width: 0;
@@ -16,13 +17,13 @@ const DayCellWrapper = styled.div`
     props.isSheetMonth &&
     props.isA &&
     css`
-      background-color: #DB2777;
+      background-color: #db2777;
     `}
 ${(props) =>
     props.isSheetMonth &&
     props.isB &&
     css`
-      background-color: #0F766E;
+      background-color: #0f766e;
     `}
 ${(props) =>
     props.isSheetMonth &&
@@ -30,10 +31,10 @@ ${(props) =>
     css`
       background: linear-gradient(
         to bottom right,
-        #DB2777 0%,
-        #DB2777 50%,
-        #0F766E 51%,
-        #0F766E 100%
+        #db2777 0%,
+        #db2777 50%,
+        #0f766e 51%,
+        #0f766e 100%
       );
     `}
 ${(props) =>
@@ -42,10 +43,10 @@ ${(props) =>
     css`
       background: linear-gradient(
         to bottom right,
-        #0F766E 0%,
-        #0F766E 50%,
-        #DB2777 51%,
-        #DB2777 100%
+        #0f766e 0%,
+        #0f766e 50%,
+        #db2777 51%,
+        #db2777 100%
       );
     `}
 `;
@@ -56,15 +57,6 @@ const DayCellContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  ${(props) =>
-    props.emoji &&
-    !props.isMouseOver &&
-    css`
-      background-image: url(/openmoji-svg-color/${props.emoji.hexcode}.svg);
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position-x: 5%;
-    `}
 `;
 
 const DayCellDate = styled.div`
@@ -91,6 +83,14 @@ const DayCellButtonContainer = styled.div`
 const DayCellWeekendBar = styled.div`
   height: 0.5rem;
   background-color: rgba(0, 0, 0, 0.19);
+`;
+
+const EmojiContainer = styled.div`
+  position: absolute;
+  transform: translate(1rem, 0.5rem);
+  width: 4rem;
+  height: 4rem;
+  z-index: 10;
 `;
 
 function DayCell(props) {
@@ -156,13 +156,23 @@ function DayCell(props) {
       isBtoA={isBtoA}
       isSheetMonth={isSheetMonth}
     >
-      <DayCellContent emoji={emoji} isMouseOver={isMouseOver}>
+      <DayCellContent isMouseOver={isMouseOver}>
+        {!isMouseOver && emoji && (
+          <EmojiContainer>
+            <Emoji
+              unified={emoji.unified}
+              size={64}
+              lazyLoad={true}
+              emojiStyle="native"
+            />
+          </EmojiContainer>
+        )}
         <DayCellDate isSheetMonth={isSheetMonth}>{date.getDate()}</DayCellDate>
         <DayCellButtonContainer>
           {isSheetMonth && isMouseOver && (
             <>
-              <DayCellButton onClick={handleAddEmojiClick} icon={"Emoji"} />
-              <DayCellButton onClick={handleSwitchClick} icon={"Switch"} />
+              <DayCellButton onClick={handleAddEmojiClick} text={"E"} />
+              <DayCellButton onClick={handleSwitchClick} text={"S"} />
               {isFirstDayOfSheetMonth && (
                 <DayCellButton
                   onClick={handleInitialAllocationClick}
