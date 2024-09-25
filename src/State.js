@@ -1,5 +1,17 @@
 import { TODAY } from "./Constants";
 
+export const ACTIONS = {
+  SELECT_DATE: "selectDate",
+  SELECT_INITIAL_ALLOCATION: "selectInitialAllocation",
+  SWITCH_TO_A: "switchToA",
+  SWITCH_TO_B: "switchToB",
+  RESET_TO_A: "resetToA",
+  RESET_TO_B: "resetToB",
+  UPDATE_DAY: "updateDay",
+  SET_MONTH_EMOJI: "setMonthEmoji",
+  RESET: "reset",
+};
+
 const INITIAL_STATE = {
   sheetDate: new Date(TODAY.getFullYear(), TODAY.getMonth(), 1),
   initialAllocation: "A",
@@ -72,17 +84,17 @@ function loadExistingStateOrInit({ sheetDate }) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "selectDate":
+    case ACTIONS.SELECT_DATE:
       return loadExistingStateOrInit({
         sheetDate: action.payload,
       });
-    case "selectInitialAllocation":
+    case ACTIONS.SELECT_INITIAL_ALLOCATION:
       return {
         ...state,
         initialAllocation: action.payload,
         days: state.days.map((day) => ({ ...day, allocation: action.payload })),
       };
-    case "switchToA":
+    case ACTIONS.SWITCH_TO_A:
       return {
         ...state,
         days: [
@@ -93,7 +105,7 @@ function reducer(state, action) {
             .map((day) => ({ ...day, allocation: "A" })),
         ],
       };
-    case "switchToB":
+    case ACTIONS.SWITCH_TO_B:
       return {
         ...state,
         days: [
@@ -104,7 +116,7 @@ function reducer(state, action) {
             .map((day) => ({ ...day, allocation: "B" })),
         ],
       };
-    case "resetToA":
+    case ACTIONS.RESET_TO_A:
       return {
         ...state,
         days: [
@@ -114,7 +126,7 @@ function reducer(state, action) {
             .map((day) => ({ ...day, allocation: "A" })),
         ],
       };
-    case "resetToB":
+    case ACTIONS.RESET_TO_B:
       return {
         ...state,
         days: [
@@ -124,7 +136,7 @@ function reducer(state, action) {
             .map((day) => ({ ...day, allocation: "B" })),
         ],
       };
-    case "updateDay":
+    case ACTIONS.UPDATE_DAY:
       return {
         ...state,
         days: [
@@ -133,12 +145,12 @@ function reducer(state, action) {
           ...state.days.filter((day) => day.date > action.payload.date),
         ],
       };
-    case "setMonthEmoji":
+    case ACTIONS.SET_MONTH_EMOJI:
       return {
         ...state,
         monthEmoji: action.payload,
       };
-    case "reset":
+    case ACTIONS.RESET:
       return init({ ...INITIAL_STATE, sheetDate: state.sheetDate });
     default:
       throw new Error();

@@ -1,22 +1,38 @@
-import { useReducer } from 'react'
-import styled from 'styled-components'
-import Calendar from './Calendar'
-import { reducer, loadExistingStateOrInit, INITIAL_STATE } from './State'
-import './App.css'
+import { useReducer } from "react";
+import styled from "styled-components";
+import Calendar from "./Calendar";
+import { reducer, loadExistingStateOrInit, INITIAL_STATE } from "./State";
+import "./App.css";
+import { DetailsList } from "./DetailsList";
 
 const AppContainer = styled.div`
-display: flex;
-justify-content: center;
-`
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+`;
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE, loadExistingStateOrInit)
+  const [state, dispatch] = useReducer(
+    reducer,
+    INITIAL_STATE,
+    loadExistingStateOrInit
+  );
 
   return (
     <AppContainer>
-      <Calendar days={state.days} sheetDate={state.sheetDate} dispatch={dispatch} monthEmoji={state.monthEmoji}/>
+      <DetailsList
+        days={state.days}
+        dispatch={dispatch}
+        sheetDate={state.sheetDate}
+      />
+      <Calendar
+        days={state.days}
+        sheetDate={state.sheetDate}
+        dispatch={dispatch}
+        monthEmoji={state.monthEmoji}
+      />
     </AppContainer>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -12,3 +12,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.epr-emoji-native {
+  font-family: "Segoe UI Emoji", "Segoe UI Symbol", "Segoe UI",
+  "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "EmojiOne Color",
+  "Android Emoji";
+  line-height: 100%;
+  letter-spacing: 0;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  display: block;
+  position: relative;
+}

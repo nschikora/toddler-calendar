@@ -28,9 +28,9 @@ const DayCellButtonText = styled.div`
 `;
 
 function DayCellButton(props) {
-  const { text, onClick } = props;
+  const { text, onClick, hint } = props;
   return (
-    <DayCellButtonWrapper onClick={onClick}>
+    <DayCellButtonWrapper onClick={onClick} aria-label={hint} title={hint}>
       {text && <DayCellButtonText>{text}</DayCellButtonText>}
     </DayCellButtonWrapper>
   );

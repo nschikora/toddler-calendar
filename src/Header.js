@@ -25,8 +25,8 @@ const MonthName = styled.h1`
   font-weight: 200;
   letter-spacing: 0.335rem;
   font-variant: small-caps;
-  :hover {
-    text-decoration: underline dotted;
+  &:hover {
+    text-decoration: underline;
   }
 `;
 

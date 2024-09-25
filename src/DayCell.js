@@ -3,6 +3,7 @@ import { useState } from "react";
 import DayCellButton from "./DayCellButton";
 import OverlayingEmojiBrowser from "./EmojiBrowser";
 import { Emoji } from "emoji-picker-react";
+import { ACTIONS } from "./State";
 
 const DayCellWrapper = styled.div`
   min-width: 0;
@@ -117,22 +118,29 @@ function DayCell(props) {
     }
 
     if (isA) {
-      dispatch({ type: "switchToB", payload: day });
+      dispatch({ type: ACTIONS.SWITCH_TO_B, payload: day });
     } else if (isB) {
-      dispatch({ type: "switchToA", payload: day });
+      dispatch({ type: ACTIONS.SWITCH_TO_A, payload: day });
     } else if (isAtoB) {
-      dispatch({ type: "resetToA", payload: day });
+      dispatch({ type: ACTIONS.RESET_TO_A, payload: day });
     } else if (isBtoA) {
-      dispatch({ type: "resetToB", payload: day });
+      dispatch({ type: ACTIONS.RESET_TO_B, payload: day });
     }
   };
 
   const handleAddEmojiClick = () =>
     setPresentingEmojiBrowser(!presentingEmojiBrowser);
+
+  const handleClearEmojiClick = () =>
+    dispatch({ type: ACTIONS.UPDATE_DAY, payload: { ...day, emoji: null } });
+
   const handleEmojiClick = (clickedEmoji) => {
     setPresentingEmojiBrowser(false);
     setIsMouseOver(false);
-    dispatch({ type: "updateDay", payload: { ...day, emoji: clickedEmoji } });
+    dispatch({
+      type: ACTIONS.UPDATE_DAY,
+      payload: { ...day, emoji: clickedEmoji },
+    });
   };
 
   const handleMouseOver = () => setIsMouseOver(isSheetMonth && true);
@@ -140,9 +148,9 @@ function DayCell(props) {
 
   const handleInitialAllocationClick = () => {
     if (isA || isAtoB) {
-      dispatch({ type: "selectInitialAllocation", payload: "B" });
+      dispatch({ type: ACTIONS.SELECT_INITIAL_ALLOCATION, payload: "B" });
     } else if (isB || isBtoA) {
-      dispatch({ type: "selectInitialAllocation", payload: "A" });
+      dispatch({ type: ACTIONS.SELECT_INITIAL_ALLOCATION, payload: "A" });
     }
   };
 
@@ -171,12 +179,26 @@ function DayCell(props) {
         <DayCellButtonContainer>
           {isSheetMonth && isMouseOver && (
             <>
-              <DayCellButton onClick={handleAddEmojiClick} text={"E"} />
-              <DayCellButton onClick={handleSwitchClick} text={"S"} />
+              <DayCellButton
+                onClick={handleAddEmojiClick}
+                text={"E"}
+                hint="Add emoji"
+              />
+              <DayCellButton
+                onClick={handleClearEmojiClick}
+                text={"C"}
+                hint="Clear emoji"
+              />
+              <DayCellButton
+                onClick={handleSwitchClick}
+                text={"S"}
+                hint="Switch color"
+              />
               {isFirstDayOfSheetMonth && (
                 <DayCellButton
                   onClick={handleInitialAllocationClick}
                   text={isA || isAtoB ? "B" : "A"}
+                  hint="Set initial color"
                 />
               )}
             </>
