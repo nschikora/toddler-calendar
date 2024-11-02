@@ -14,12 +14,22 @@ const CalendarContainer = styled.div`
 `;
 
 function Calendar(props) {
-  const { days, sheetDate, dispatch, monthEmoji } = props;
+  const { days, sheetDate, dispatch, monthEmoji, colors } = props;
   return (
     <CalendarContainer>
-      <Header date={sheetDate} dispatch={dispatch} monthEmoji={monthEmoji} />
+      <Header
+        date={sheetDate}
+        dispatch={dispatch}
+        monthEmoji={monthEmoji}
+        colors={colors}
+      />
       <DayLabels />
-      <DayGrid sheetDate={sheetDate} days={days} dispatch={dispatch} />
+      <DayGrid
+        sheetDate={sheetDate}
+        days={days}
+        dispatch={dispatch}
+        colors={colors}
+      />
     </CalendarContainer>
   );
 }

@@ -25,7 +25,7 @@ const ListItemAllocationAndDateRow = styled.div`
   font-weight: 900;
 `;
 
-export function DetailsListItem({ day, dispatch }) {
+export function DetailsListItem({ day, dispatch, colors }) {
   const { allocation, emoji, date } = day;
 
   const isA = allocation === "A";
@@ -47,7 +47,13 @@ export function DetailsListItem({ day, dispatch }) {
             weekday: "short",
             day: "numeric",
           })}
-          <ColorBlock isA={isA} isB={isB} isAtoB={isAtoB} isBtoA={isBtoA} />
+          <ColorBlock
+            isA={isA}
+            isB={isB}
+            isAtoB={isAtoB}
+            isBtoA={isBtoA}
+            colors={colors}
+          />
         </ListItemAllocationAndDateRow>
         <ListItemCustomTextRow day={day} dispatch={dispatch} />
       </ListItemTextContainer>

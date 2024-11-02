@@ -12,7 +12,7 @@ const DetailsListContainer = styled.ul`
   margin: 5.3125rem 0 0 0;
 `;
 
-export function DetailsList({ days, dispatch, sheetDate }) {
+export function DetailsList({ days, dispatch, sheetDate, colors }) {
   const effectiveDays = (days ?? [])
     .filter((day) => day.date.getMonth() === sheetDate.getMonth())
     .filter((day) => Boolean(day.emoji));
@@ -20,7 +20,12 @@ export function DetailsList({ days, dispatch, sheetDate }) {
   return (
     <DetailsListContainer>
       {effectiveDays.map((day) => (
-        <DetailsListItem key={`day${day.date}`} day={day} dispatch={dispatch} />
+        <DetailsListItem
+          key={`day${day.date}`}
+          day={day}
+          dispatch={dispatch}
+          colors={colors}
+        />
       ))}
     </DetailsListContainer>
   );

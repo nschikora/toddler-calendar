@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { MONTHS, YEARS } from "./Constants";
+import { ColorPicker } from "./ColorPicker";
 
 function MonthSelector(props) {
   const { selectedMonth, onMonthSelected } = props;
@@ -67,13 +68,18 @@ const SheetSettingsPickerContainer = styled.div`
   justify-content: center;
 `;
 
+const SheetSettingsColorPickerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const SheetSettingsButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
 function SheetSettings(props) {
-  const { defaultDate, dispatch } = props;
+  const { defaultDate, dispatch, colors } = props;
   const [currentDate, setCurrentDate] = useState(defaultDate);
 
   const handleMonthSelected = (month) => {
@@ -112,6 +118,9 @@ function SheetSettings(props) {
             onYearSelected={handleYearSelected}
           />
         </SheetSettingsPickerContainer>
+        <SheetSettingsColorPickerContainer>
+          <ColorPicker colors={colors} dispatch={dispatch} />
+        </SheetSettingsColorPickerContainer>
         <SheetSettingsButtonContainer>
           <button onClick={handleResetClicked}>Reset sheet</button>
           <button onClick={handleCloseClicked}>Close</button>

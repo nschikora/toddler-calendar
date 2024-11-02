@@ -38,7 +38,7 @@ const MonthNumber = styled.h1`
 `;
 
 function Header(props) {
-  const { date, dispatch, monthEmoji } = props;
+  const { date, dispatch, monthEmoji, colors } = props;
   const [presentingSheetSettings, setPresentingSheetSettings] = useState(false);
 
   const handleMonthNameClicked = () =>
@@ -60,6 +60,7 @@ function Header(props) {
       </div>
       {presentingSheetSettings && (
         <SheetSettings
+          colors={colors}
           defaultDate={date}
           onClose={handleSheetSettingsWantsClose}
           dispatch={dispatch}

@@ -10,6 +10,7 @@ export const ACTIONS = {
   UPDATE_DAY: "updateDay",
   SET_MONTH_EMOJI: "setMonthEmoji",
   RESET: "reset",
+  SET_COLORS: "setColors",
 };
 
 const INITIAL_STATE = {
@@ -17,6 +18,10 @@ const INITIAL_STATE = {
   initialAllocation: "A",
   stateCompatibilityVersion: 0,
   monthEmoji: "1f47c-1f3ff",
+  colors: {
+    colorA: "#db2777",
+    colorB: "#0f766e",
+  },
 };
 
 function init(initialState) {
@@ -152,8 +157,13 @@ function reducer(state, action) {
       };
     case ACTIONS.RESET:
       return init({ ...INITIAL_STATE, sheetDate: state.sheetDate });
+    case ACTIONS.SET_COLORS:
+      return {
+        ...state,
+        colors: action.payload,
+      };
     default:
-      throw new Error();
+      throw new Error("Unknown action type");
   }
 }
 

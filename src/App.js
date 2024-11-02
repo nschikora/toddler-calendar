@@ -21,11 +21,13 @@ function App() {
   return (
     <AppContainer>
       <DetailsList
+        colors={state.colors}
         days={state.days}
         dispatch={dispatch}
         sheetDate={state.sheetDate}
       />
       <Calendar
+        colors={state.colors}
         days={state.days}
         sheetDate={state.sheetDate}
         dispatch={dispatch}

@@ -18,13 +18,13 @@ const DayCellWrapper = styled.div`
     props.isSheetMonth &&
     props.isA &&
     css`
-      background-color: #db2777;
+      background-color: ${props.colors.colorA};
     `}
 ${(props) =>
     props.isSheetMonth &&
     props.isB &&
     css`
-      background-color: #0f766e;
+      background-color: ${props.colors.colorB};
     `}
 ${(props) =>
     props.isSheetMonth &&
@@ -32,10 +32,10 @@ ${(props) =>
     css`
       background: linear-gradient(
         to bottom right,
-        #db2777 0%,
-        #db2777 50%,
-        #0f766e 51%,
-        #0f766e 100%
+        ${props.colors.colorA} 0%,
+        ${props.colors.colorA} 50%,
+        ${props.colors.colorB} 51%,
+        ${props.colors.colorB} 100%
       );
     `}
 ${(props) =>
@@ -44,10 +44,10 @@ ${(props) =>
     css`
       background: linear-gradient(
         to bottom right,
-        #0f766e 0%,
-        #0f766e 50%,
-        #db2777 51%,
-        #db2777 100%
+        ${props.colors.colorB} 0%,
+        ${props.colors.colorB} 50%,
+        ${props.colors.colorA} 51%,
+        ${props.colors.colorA} 100%
       );
     `}
 `;
@@ -95,7 +95,7 @@ const EmojiContainer = styled.div`
 `;
 
 function DayCell(props) {
-  const { day, sheetMonth, dispatch } = props;
+  const { day, sheetMonth, dispatch, colors } = props;
   const { date, allocation, emoji } = day;
 
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -163,6 +163,7 @@ function DayCell(props) {
       isAtoB={isAtoB}
       isBtoA={isBtoA}
       isSheetMonth={isSheetMonth}
+      colors={colors}
     >
       <DayCellContent isMouseOver={isMouseOver}>
         {!isMouseOver && emoji && (
